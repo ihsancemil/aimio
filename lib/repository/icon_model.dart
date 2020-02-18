@@ -32,7 +32,7 @@ class IconModel extends BaseRepository {
   void createTable(Database db) {
     db.execute(
       "CREATE TABLE" + 
-      "icon (id INTEGER PRIMARY KEY, codePoint INTEGER, fontFamily TEXT, fontPackage TEXT, end REAL, matchTextDirection NUMERIC)"
+      " icon (id INTEGER PRIMARY KEY, codePoint INTEGER, fontFamily TEXT, fontPackage TEXT, end REAL, matchTextDirection NUMERIC)"
     );
   }
 }

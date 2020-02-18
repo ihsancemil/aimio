@@ -11,7 +11,7 @@ class AimsPage extends StatelessWidget {
     return StandartPage(
       navigationIndex: 1,
       body: BlocProvider(
-        create: (BuildContext context) => AimsBloc(),
+        create: (BuildContext context) => AimsBloc()..add(AimsFetchEvent()),
         child: AimsBody(),
       ),
     );

@@ -19,7 +19,7 @@ class AimModel extends BaseRepository
   void createTable(Database db) {
     db.execute(
       "CREATE TABLE" + 
-      "aim (id INTEGER PRIMARY KEY, title TEXT, definition TEXT, start REAL, end REAL, iconId INTEGER)"
+      " aim (id INTEGER PRIMARY KEY, title TEXT, definition TEXT, start REAL, end REAL, iconId INTEGER)"
     );
   }
 
@@ -46,13 +46,17 @@ class AimModel extends BaseRepository
 
   static Future<List<AimModel>> getAims() async {
     var db = await DatabaseProvider.db.database;
-    var resources = (await db.query("SELECT * FROM aim JOIN icon ON aim.iconId = icon.id"));
-    return resources.map((map) => AimModel.fromMap(map));
+    var resources = (await db.query("aim JOIN icon ON aim.iconId = icon.id"));
+    return resources.toList().map((map) => AimModel.fromMap(map)).toList();
   }
 
-  static Future<void> newAim(AimModel aim) async {
+  static Future<int> newAim(AimModel aim) async {
     var db = await DatabaseProvider.db.database;
-    db.insert("aim", aim.toMap());
-    db.insert("icon", aim.iconModel.toMap());
+    var aimResult = await db.insert("aim", aim.toMap());
+    if (aim.iconModel != null){
+      var iconResult = await db.insert("icon", aim.iconModel.toMap());
+      return aimResult * iconResult;
+    }
+    return aimResult;
   }
 }
